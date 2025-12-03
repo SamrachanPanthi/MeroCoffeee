@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MeroCofeee</string>
     <string name="title_activity_login2">LoginActivity2</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 </resources>
