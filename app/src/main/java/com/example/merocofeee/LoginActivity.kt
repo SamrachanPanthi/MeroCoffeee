@@ -33,6 +33,18 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            com.example.merocofeee.LoginScreen(
+                onLoginSuccess = {
+                    val intent = Intent(this, DashboardActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                },
+                onRegisterClick = {
+                    val intent = Intent(this, RegistrationActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            )
 
 
         }
