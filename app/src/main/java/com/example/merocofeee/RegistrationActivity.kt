@@ -54,7 +54,7 @@ class RegistrationActivity : ComponentActivity() {
     }
 }
 
-// --- Composable Implementation ---
+
 
 @Composable
 fun SignUpScreen(
@@ -65,7 +65,7 @@ fun SignUpScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // Use LocalContext to access resources if needed, though for this code it's implicit
+
     val context = LocalContext.current
     val backgroundImageResource = R.drawable.img
 
@@ -204,9 +204,9 @@ fun SignUpScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Sign Up button
+
                     Button(
-                        onClick = onSignUpSuccess, // Triggers sign up success logic
+                        onClick = onSignUpSuccess,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
@@ -226,9 +226,7 @@ fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 fun SignUpPreview() {
-    // Replace with your actual theme if needed
-    // MeroCoffeeTheme {
     SignUpScreen()
-    // }
+
 }
 
