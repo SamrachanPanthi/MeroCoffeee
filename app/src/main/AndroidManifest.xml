@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity2"
+            android:name=".LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login2"
             android:theme="@style/Theme.MeroCofeee">
