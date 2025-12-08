@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.lazy.LazyColumn
 
 // --- 1. Data Models (Simplified, ensure these are accessible/imported) ---
 
@@ -74,38 +75,33 @@ val coffeeProducts = listOf(
 // --------------------------------------------------------------------------
 
 @Composable
+
 fun HomeScreenContent() {
-    Column(
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState()) // Enables vertical scrolling for the entire screen
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        // --- 1. Search and Quick Actions ---
-        Spacer(modifier = Modifier.height(8.dp))
-        SearchBar()
-        Spacer(modifier = Modifier.height(16.dp))
-        QuickActionButtons(actions = quickActions)
-        Spacer(modifier = Modifier.height(20.dp))
 
-        // --- 2. Hero Banner ---
-        HeroBanner()
-        Spacer(modifier = Modifier.height(30.dp))
+        item { Spacer(modifier = Modifier.height(8.dp)) }
+        item { SearchBar() }
 
-        // --- 3. Foods Section ---
-        SectionHeader(title = "FOODS TO GO WITH", isLarge = false)
-        Spacer(modifier = Modifier.height(16.dp))
-        HorizontalFoodList(items = foodItems)
-        Spacer(modifier = Modifier.height(30.dp))
+        item { QuickActionButtons(actions = quickActions) }
 
-        // --- 4. Coffee Products Section ---
-        SectionHeader(title = "COFFEES AVAILABLE", isLarge = true, showArrow = true)
-        Spacer(modifier = Modifier.height(16.dp))
-        HorizontalProductList(products = coffeeProducts)
+        item { HeroBanner() }
 
-        // Extra padding to ensure content is not hidden behind the BottomBar
-        Spacer(modifier = Modifier.height(80.dp))
+        item { SectionHeader("FOODS TO GO WITH", false) }
+        item { HorizontalFoodList(items = foodItems) }
+
+        item { SectionHeader("COFFEES AVAILABLE", true, showArrow = true) }
+
+        // ⬇️ NEW VERTICAL COFFEE LIST
+        item { VerticalProductList(products = coffeeProducts) }
+
+        item { Spacer(modifier = Modifier.height(80.dp)) }
     }
 }
 
@@ -308,12 +304,11 @@ fun ProductCard(product: CoffeeProduct) {
 }
 
 @Composable
-fun HorizontalProductList(products: List<CoffeeProduct>) {
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 0.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+fun VerticalProductList(products: List<CoffeeProduct>) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        items(products) { product ->
+        products.forEach { product ->
             ProductCard(product)
         }
     }
