@@ -1,7 +1,9 @@
 package com.example.merocofeee
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,63 +27,50 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-// *** IMPORTANT: You must ensure R.drawable.img exists ***
+
+
 
 class RegistrationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            // Using the new SignUpScreen Composable
-            SignUpScreen(
-                onLoginClick = {
-                    // Navigate back to LoginActivity
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                },
-                onSignUpSuccess = {
-                    // Example: Navigate to Dashboard after successful sign-up
-                    // val intent = Intent(this, DashboardActivity::class.java)
-                    // startActivity(intent)
-                    // finish()
-                }
-            )
-        }
+        setContent { RegistrationBody() }
     }
 }
 
-
-
 @Composable
-fun SignUpScreen(
-    onLoginClick: () -> Unit = {},
-    onSignUpSuccess: () -> Unit = {}
-) {
-    var fullName by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+fun RegistrationBody() {
 
+
+
+    var fullName by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+
+    var visibility by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
-    val backgroundImageResource = R.drawable.img
+    val activity = context as? Activity
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                brush = Brush.verticalGradient(
+                Brush.verticalGradient(
                     listOf(Color(0xFFF3E7D4), Color(0xFF8B3C1C))
                 )
             )
     ) {
 
-        // Background Image
         Image(
-            painter = painterResource(id = backgroundImageResource),
+            painter = painterResource(id = R.drawable.img),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
@@ -91,142 +80,164 @@ fun SignUpScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 80.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-
-
+                .padding(top = 60.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-
-
             Card(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth(0.85f),
+                modifier = Modifier.fillMaxWidth(0.85f),
                 shape = RoundedCornerShape(22.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF4A2E1F) // Dark brown
-                )
-
+                colors = CardDefaults.cardColors(containerColor = Color(0xFF4A2E1F))
             ) {
 
                 Column(
-                    modifier = Modifier
-                        .padding(24.dp)
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+
+
                 ) {
+
                     Text(
-                        text = "Sign Up",
+                        "Sign Up",
                         fontSize = 32.sp,
                         color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(bottom = 40.dp)
+                        fontWeight = FontWeight.Bold
                     )
 
-                    Text(
-                        text = "Create your account",
-                        color = Color.White,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
+                    Spacer(Modifier.height(20.dp))
 
-                    // Full Name
+                    // FULL NAME FIELD
                     OutlinedTextField(
                         value = fullName,
                         onValueChange = { fullName = it },
-                        placeholder = { Text("Full name", color = Color.LightGray) },
-                        leadingIcon = {
-                            Icon(Icons.Default.Person, contentDescription = null, tint = Color.White)
-                        },
+                        leadingIcon = { Icon(Icons.Default.Person, null, tint = Color.White) },
+                        placeholder = { Text("Full Name", color = Color.LightGray) },
                         modifier = Modifier.fillMaxWidth(),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
-                            focusedBorderColor = Color(0xFFE6A21A), // Orange accent
-                            unfocusedBorderColor = Color.LightGray,
-                            cursorColor = Color.White
-                        )
+                        colors = fieldColors(),
+                        shape = RoundedCornerShape(12.dp)
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(Modifier.height(12.dp))
 
-                    // Email
+                    // USERNAME FIELD
+                    OutlinedTextField(
+                        value = username,
+                        onValueChange = { username = it },
+                        leadingIcon = { Icon(Icons.Default.Person, null, tint = Color.White) },
+                        placeholder = { Text("Username", color = Color.LightGray) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = fieldColors(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    Spacer(Modifier.height(12.dp))
+
+                    // EMAIL FIELD
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
-                        placeholder = { Text("Email address", color = Color.LightGray) },
-                        leadingIcon = {
-                            Icon(Icons.Default.Email, contentDescription = null, tint = Color.White)
-                        },
+                        leadingIcon = { Icon(Icons.Default.Email, null, tint = Color.White) },
+                        placeholder = { Text("Email Address", color = Color.LightGray) },
                         modifier = Modifier.fillMaxWidth(),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
-                            focusedBorderColor = Color(0xFFE6A21A),
-                            unfocusedBorderColor = Color.LightGray,
-                            cursorColor = Color.White
-                        )
+                        colors = fieldColors(),
+                        shape = RoundedCornerShape(12.dp)
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(Modifier.height(12.dp))
 
-                    // Password
+                    // PASSWORD FIELD
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
+                        leadingIcon = { Icon(Icons.Default.Lock, null, tint = Color.White) },
                         placeholder = { Text("Password", color = Color.LightGray) },
-                        leadingIcon = {
-                            Icon(Icons.Default.Lock, contentDescription = null, tint = Color.White)
+                        visualTransformation = if (!visibility) PasswordVisualTransformation() else VisualTransformation.None,
+                        trailingIcon = {
+                            IconButton(onClick = { visibility = !visibility }) {
+                                Icon(
+                                    painterResource(
+                                        if (visibility) R.drawable.outline_visibility_off_24
+                                        else R.drawable.outline_visibility_24
+                                    ), null
+                                )
+                            }
                         },
-                        visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth(),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
-                            focusedBorderColor = Color(0xFFE6A21A),
-                            unfocusedBorderColor = Color.LightGray,
-                            cursorColor = Color.White
-                        )
+                        colors = fieldColors(),
+                        shape = RoundedCornerShape(12.dp)
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(Modifier.height(12.dp))
 
-                    // Already have account? Text (Clickable to login)
-                    Text(
-                        text = "Already have account?",
-                        color = Color.White,
-                        fontSize = 12.sp,
-                        modifier = Modifier.clickable(onClick = onLoginClick) // Added clickable
+                    // CONFIRM PASSWORD FIELD
+                    OutlinedTextField(
+                        value = confirmPassword,
+                        onValueChange = { confirmPassword = it },
+                        leadingIcon = { Icon(Icons.Default.Lock, null, tint = Color.White) },
+                        placeholder = { Text("Confirm Password", color = Color.LightGray) },
+                        visualTransformation = if (!visibility) PasswordVisualTransformation() else VisualTransformation.None,
+                        trailingIcon = {
+                            IconButton(onClick = { visibility = !visibility }) {
+                                Icon(
+                                    painterResource(
+                                        if (visibility) R.drawable.outline_visibility_off_24
+                                        else R.drawable.outline_visibility_24
+                                    ), null
+                                )
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = fieldColors(),
+                        shape = RoundedCornerShape(12.dp)
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(Modifier.height(16.dp))
 
-
+                    // SIGN UP BUTTON
                     Button(
-                        onClick = onSignUpSuccess,
+                        onClick = {
+
+
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFE6A21A)
-                        ),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE6A21A)),
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Text("Sign Up", color = Color.White, fontWeight = FontWeight.Bold)
                     }
+
+                    Spacer(Modifier.height(8.dp))
+
+                    Text(
+                        "Already have an account?",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        modifier = Modifier.clickable {
+                            activity?.startActivity(Intent(context, LoginActivity::class.java))
+                            activity?.finish()
+                        }
+                    )
                 }
             }
         }
     }
 }
 
+@Composable
+fun fieldColors() = OutlinedTextFieldDefaults.colors(
+    focusedTextColor = Color.White,
+    unfocusedTextColor = Color.White,
+    focusedBorderColor = Color(0xFFE6A21A),
+    unfocusedBorderColor = Color.LightGray,
+    cursorColor = Color.White
+)
+
+fun toast(context: android.content.Context, msg: String) =
+    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+
 @Preview(showBackground = true)
 @Composable
-fun SignUpPreview() {
-    SignUpScreen()
-
+fun RegistrationPreview() {
+    RegistrationBody()
 }
-
