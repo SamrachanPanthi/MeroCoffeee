@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "790433982178",
+    "firebase_url": "https://ai37a-46328-default-rtdb.firebaseio.com",
+    "project_id": "ai37a-46328",
+    "storage_bucket": "ai37a-46328.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790433982178:android:a77c7f7bbf61c9a4f6a0bb",
+        "android_client_info": {
+          "package_name": "com.example.merocofeee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDpyoYYYpVGq3NwMRCP-X6C4uRM-ZTRsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
