@@ -32,6 +32,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.merocofeee.repository.UserRepoImpl
+import com.example.merocofeee.viewmodel.UserViewModel
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +47,7 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen() {
-
+    val userViewModel = remember { UserViewModel(UserRepoImpl()) }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var visibility by remember { mutableStateOf(false) }
@@ -166,8 +168,28 @@ fun LoginScreen() {
 //                        // LOGIN BUTTON
                    Button(
                        onClick = {
+                           when {
+                               email.isBlank() -> toast(context, "Email required!")
+                               password.isBlank() -> toast(context, "Password required!")
+                               else -> {
+                                   userViewModel.login(email.trim(), password.trim()) { success, message ->
+                                       if (success) {
+                                           Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
+                                           context.startActivity(Intent(context, DashboardActivity::class.java))
+                                           activity.finish()
+                                       } else {
 
-                            },
+                                           Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+
+
+
+                                       }
+                                   }
+                               }
+                           }
+
+
+                       },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE6A21A)),
                             modifier = Modifier
                                 .fillMaxWidth()
