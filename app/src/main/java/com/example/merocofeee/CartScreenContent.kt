@@ -30,6 +30,7 @@ import androidx.compose.foundation.BorderStroke
 // ==========================================================
 
 // --- Data Models ---
+//this is datamodel for  cartscreen as cartitem
 data class CartItem(
     val id: Int,
     val name: String,
