@@ -1,6 +1,5 @@
 package com.example.merocofeee
 
-
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -34,7 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +46,12 @@ class LoginActivity : ComponentActivity() {
 @Composable
 fun LoginScreen() {
 
-
-
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var visibility by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
-    val activity = context as? Activity
+    val activity = context as Activity
 
     Scaffold { padding ->
 
@@ -167,10 +163,10 @@ fun LoginScreen() {
 
                         Spacer(modifier = Modifier.height(24.dp))
 
-                        // LOGIN BUTTON
-                        Button(
-                            onClick = {
-//
+//                        // LOGIN BUTTON
+                   Button(
+                       onClick = {
+
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE6A21A)),
                             modifier = Modifier
@@ -198,7 +194,7 @@ fun LoginScreen() {
                             },
                             modifier = Modifier.clickable {
                                 context.startActivity(Intent(context, RegistrationActivity::class.java))
-                                activity ?.finish()
+                                activity.finish()
                             },
                             fontSize = 14.sp,
                             color = Color.White

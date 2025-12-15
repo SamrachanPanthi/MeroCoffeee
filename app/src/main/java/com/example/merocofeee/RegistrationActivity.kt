@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
-
 class RegistrationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +45,7 @@ class RegistrationActivity : ComponentActivity() {
 fun RegistrationBody() {
 
 
-
+    val userViewModel = remember { UserViewModel(UserRepoImpl()) }
     var fullName by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -195,6 +194,52 @@ fun RegistrationBody() {
                     // SIGN UP BUTTON
                     Button(
                         onClick = {
+                                                        if (fullName.isBlank()) {
+                                toast(context, "Full name required!")
+                                return@Button
+                            }
+                            if (username.isBlank()) {
+                                toast(context, "Username required!")
+                                return@Button
+                            }
+                            if (email.isBlank()) {
+                                toast(context, "Email required!")
+                                return@Button
+                            }
+                            if (password.isBlank()) {
+                                toast(context, "Password required!")
+                                return@Button
+                            }
+                            if (password != confirmPassword) {
+                                toast(context, "Passwords do not match!")
+                                return@Button
+                            }
+
+                            userViewModel.register(email, password) { success, msg, userId ->
+                                if (success) {
+
+                                    val model = UserModel(
+                                        userId = userId,
+                                        firstname = "",
+                                        lastname = "",
+                                        email = "",
+                                        dob = " ",
+                                        gender = "",
+                                    )
+
+                                    userViewModel.addUserTODatabase(userId, model) { ok, message ->
+                                        if (ok) {
+                                            Toast.makeText(context, "Registration successful!", Toast.LENGTH_SHORT).show()
+                                          activity?.finish()
+                                        } else {
+                                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+
+                                } else {
+                                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                                }
+                            }
 
 
                         },
