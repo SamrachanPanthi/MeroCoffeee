@@ -105,9 +105,8 @@ fun CartScreenContent(onBack: () -> Unit = {}) { // Renamed and added optional o
     }
 }
 
-// ==========================================================
-// 3. AUXILIARY COMPOSABLES
-// ==========================================================
+
+
 
 @Composable
 fun MyCartTopAppBar(onBack: () -> Unit) {
