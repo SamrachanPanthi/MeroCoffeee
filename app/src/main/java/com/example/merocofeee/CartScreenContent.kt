@@ -25,9 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.BorderStroke
 
-// ==========================================================
-// 1. DATA MODELS AND MOCK DATA (STANDALONE)
-// ==========================================================
+
+
 
 // --- Data Models ---
 data class CartItem(
