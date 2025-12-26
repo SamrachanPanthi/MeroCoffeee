@@ -44,9 +44,8 @@ data class OptionItemData(
     val isDelivery: Boolean = false
 )
 
-// --- Mock Data ---
-// NOTE: Using standard Android drawables as placeholders (android.R.drawable.X).
-// Replace these with your actual R.drawable.coffee_image IDs.
+
+
 val cartItems = listOf(
     CartItem(1, "LATTE", "Size: Large\nNotes: Extra Shot", 1, 200, android.R.drawable.ic_dialog_map),
     CartItem(2, "ESPRESSO", "Size: Small\nNotes: Decaf", 2, 320, android.R.drawable.ic_dialog_email)
@@ -59,7 +58,6 @@ val options = listOf(
     OptionItemData("DELIVERY", "100", isDelivery = true)
 )
 
-// --- Helper Functions ---
 private fun calculateSubtotal(items: List<CartItem>): Int {
     return items.sumOf { it.price * it.quantity }
 }
@@ -70,17 +68,16 @@ private fun calculateTotal(subtotal: Int, options: List<OptionItemData>): Int {
 }
 
 
-// ==========================================================
-// 2. MAIN COMPOSABLE
-// ==========================================================
+
+
 
 @Composable
-fun CartScreenContent(onBack: () -> Unit = {}) { // Renamed and added optional onBack
+fun CartScreenContent(onBack: () -> Unit = {}) {
     val subtotal = calculateSubtotal(cartItems)
     val total = calculateTotal(subtotal, options)
     val scrollState = rememberScrollState()
 
-    // Scaffold for structure: TopBar, Content, BottomBar
+
     Scaffold(
         topBar = { MyCartTopAppBar(onBack = onBack) },
         bottomBar = { PlaceOrderBottomBar(total = total) }
