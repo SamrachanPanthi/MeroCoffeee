@@ -38,6 +38,7 @@ import com.example.merocofeee.repository.UserRepoImpl
 import com.example.merocofeee.viewmodel.UserViewModel
 
 
+
 class RegistrationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

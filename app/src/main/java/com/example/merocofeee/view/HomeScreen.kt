@@ -96,16 +96,12 @@ fun HomeScreenContent() {
 
         item { SectionHeader("COFFEES AVAILABLE", true, showArrow = true) }
 
-        // ⬇️ NEW VERTICAL COFFEE LIST
         item { VerticalProductList(products = coffeeProducts) }
 
         item { Spacer(modifier = Modifier.height(80.dp)) }
     }
 }
 
-// --------------------------------------------------------------------------
-// 4. Auxiliary Composables (Components used in HomeScreenContent)
-// --------------------------------------------------------------------------
 
 @Composable
 fun SearchBar() {

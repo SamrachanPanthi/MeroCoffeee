@@ -11,6 +11,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import com.example.merocofeee.R
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -32,9 +33,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.merocofeee.R
 import com.example.merocofeee.repository.UserRepoImpl
 import com.example.merocofeee.viewmodel.UserViewModel
+
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +49,9 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen() {
+
     val userViewModel = remember { UserViewModel(UserRepoImpl()) }
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var visibility by remember { mutableStateOf(false) }
@@ -64,7 +67,6 @@ fun LoginScreen() {
                 .padding(padding)
         ) {
 
-            // Background Image
             Image(
                 painter = painterResource(id = R.drawable.img),
                 contentDescription = null,
@@ -72,7 +74,6 @@ fun LoginScreen() {
                 contentScale = ContentScale.Crop
             )
 
-            // Dark overlay
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -102,23 +103,26 @@ fun LoginScreen() {
                             "Log In",
                             fontSize = 32.sp,
                             color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 12.dp)
+                            fontWeight = FontWeight.Bold
                         )
+
+                        Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
                             "Sign in to your account",
                             color = Color.White.copy(0.8f),
-                            fontSize = 14.sp,
-                            modifier = Modifier.padding(bottom = 24.dp)
+                            fontSize = 14.sp
                         )
 
-                        // EMAIL FIELD
+                        Spacer(modifier = Modifier.height(24.dp))
+
                         OutlinedTextField(
                             value = email,
                             onValueChange = { email = it },
                             placeholder = { Text("Email", color = Color.LightGray) },
-                            leadingIcon = { Icon(Icons.Default.Person, null, tint = Color.White) },
+                            leadingIcon = {
+                                Icon(Icons.Default.Person, null, tint = Color.White)
+                            },
                             modifier = Modifier.fillMaxWidth(),
                             colors = TextFieldDefaults.colors(
                                 focusedContainerColor = Color.Transparent,
@@ -133,20 +137,24 @@ fun LoginScreen() {
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        // PASSWORD FIELD
                         OutlinedTextField(
                             value = password,
                             onValueChange = { password = it },
                             placeholder = { Text("Password", color = Color.LightGray) },
-                            leadingIcon = { Icon(Icons.Default.Lock, null, tint = Color.White) },
-                            visualTransformation = if (!visibility) PasswordVisualTransformation() else VisualTransformation.None,
+                            leadingIcon = {
+                                Icon(Icons.Default.Lock, null, tint = Color.White)
+                            },
+                            visualTransformation =
+                                if (visibility) VisualTransformation.None
+                                else PasswordVisualTransformation(),
                             trailingIcon = {
                                 IconButton(onClick = { visibility = !visibility }) {
                                     Icon(
-                                        painter = if (visibility)
-                                            painterResource(R.drawable.outline_visibility_off_24)
-                                        else
-                                            painterResource(R.drawable.outline_visibility_24),
+                                        painter =
+                                            if (visibility)
+                                                painterResource(R.drawable.outline_visibility_off_24)
+                                            else
+                                                painterResource(R.drawable.outline_visibility_24),
                                         contentDescription = null,
                                         tint = Color.White
                                     )
@@ -166,31 +174,44 @@ fun LoginScreen() {
 
                         Spacer(modifier = Modifier.height(24.dp))
 
-//                        // LOGIN BUTTON
-                   Button(
-                       onClick = {
-                           when {
-                               email.isBlank() -> toast(context, "Email required!")
-                               password.isBlank() -> toast(context, "Password required!")
-                               else -> {
-                                   userViewModel.login(email.trim(), password.trim()) { success, message ->
-                                       if (success) {
-                                           Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
-                                           context.startActivity(Intent(context, DashboardActivity::class.java))
-                                           activity.finish()
-                                       } else {
-
-                                           Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-
-
-
-                                       }
-                                   }
-                               }
-                           }
-
-
-                       },
+                        Button(
+//                            onClick = {
+//                                when {
+//                                    email.isBlank() -> {
+//                                        Toast.makeText(context, "Email required!", Toast.LENGTH_SHORT).show()
+//                                    }
+//
+//                                    password.isBlank() -> {
+//                                        Toast.makeText(context, "Password required!", Toast.LENGTH_SHORT).show()
+//                                    }
+//
+//                                    email == "admin123@gmail.com" && password == "merocoffee" -> {
+//                                        Toast.makeText(context, "Welcome Admin", Toast.LENGTH_SHORT).show()
+//                                        context.startActivity(
+//                                            Intent(context, AdminPanelActivity::class.java)
+//                                        )
+//                                        activity.finish()
+//                                    }
+//
+//                                    else -> {
+//                                        userViewModel.login(email, password) { success, message ->
+//                                            if (success) {
+//                                                Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
+//                                                context.startActivity(
+//                                                    Intent(context, DashboardActivity::class.java)
+//                                                )
+//                                                activity.finish()
+//                                            } else {
+//                                                Toast.makeText(
+//                                                    context,
+//                                                    message ?: "Login failed",
+//                                                    Toast.LENGTH_SHORT
+//                                                ).show()
+//                                            }
+//                                        }
+//                                    }
+//                                }
+                           // },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE6A21A)),
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -200,28 +221,19 @@ fun LoginScreen() {
                             Text("Sign In", color = Color.White, fontWeight = FontWeight.Bold)
                         }
 
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Text(
-                            buildAnnotatedString {
-
-                                withStyle(SpanStyle(color = Color(0xFFF9B34B))) { append("forgetPassword") }
-                            },
-                            modifier = Modifier.clickable {
-                                context.startActivity(Intent(context, ForgetPasswordActivity::class.java))
-                                activity.finish()
-                            },
-                        )
-
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(12.dp))
 
                         Text(
                             buildAnnotatedString {
                                 append("Don't have an account? ")
-                                withStyle(SpanStyle(color = Color(0xFFF9B34B))) { append("Register") }
+                                withStyle(SpanStyle(color = Color(0xFFF9B34B))) {
+                                    append("Register")
+                                }
                             },
                             modifier = Modifier.clickable {
-                                context.startActivity(Intent(context, RegistrationActivity::class.java))
+                                context.startActivity(
+                                    Intent(context, RegistrationActivity::class.java)
+                                )
                                 activity.finish()
                             },
                             fontSize = 14.sp,
@@ -233,10 +245,6 @@ fun LoginScreen() {
         }
     }
 }
-
-
-
-
 
 @Preview(showBackground = true)
 @Composable

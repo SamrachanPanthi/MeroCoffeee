@@ -12,6 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MeroCofeee">
         <activity
+            android:name=".view.AdminPanelActivity"
+            android:exported="true"
+            android:label="@string/title_activity_admin_panel"
+            android:theme="@style/Theme.MeroCofeee">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".view.MenuActivity"
             android:exported="true"
             android:label="@string/title_activity_menu"
