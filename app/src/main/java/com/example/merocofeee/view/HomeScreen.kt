@@ -38,8 +38,6 @@ data class QuickAction(val icon: ImageVector, val label: String)
 data class FoodItem(val id: Int, val label: String, val imageResId: Int)
 data class CoffeeProduct(val id: Int, val name: String, val price: Int, val imageResId: Int)
 
-// --- 2. Mock Data (Requires R.drawable.* resources) ---
-// NOTE: Replace R.drawable.X with your actual resource IDs
 
 val quickActions = listOf(
     QuickAction(Icons.Default.Favorite, "Favorites"),
