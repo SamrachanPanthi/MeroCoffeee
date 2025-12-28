@@ -1,5 +1,6 @@
-package com.example.merocofeee
+package com.example.merocofeee.view
 
+import android.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,9 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.BorderStroke
-
-
 
 
 // --- Data Models ---
@@ -47,8 +45,8 @@ data class OptionItemData(
 
 
 val cartItems = listOf(
-    CartItem(1, "LATTE", "Size: Large\nNotes: Extra Shot", 1, 200, android.R.drawable.ic_dialog_map),
-    CartItem(2, "ESPRESSO", "Size: Small\nNotes: Decaf", 2, 320, android.R.drawable.ic_dialog_email)
+    CartItem(1, "LATTE", "Size: Large\nNotes: Extra Shot", 1, 200, R.drawable.ic_dialog_map),
+    CartItem(2, "ESPRESSO", "Size: Small\nNotes: Decaf", 2, 320, R.drawable.ic_dialog_email)
 )
 
 val options = listOf(
@@ -206,7 +204,7 @@ fun CartItemRow(item: CartItem) {
         verticalAlignment = Alignment.Top
     ) {
         Image(
-            painter = painterResource(id = R.drawable.lattee),
+            painter = painterResource(id = com.example.merocofeee.R.drawable.lattee),
 
             contentDescription = item.name,
             contentScale = ContentScale.Crop,

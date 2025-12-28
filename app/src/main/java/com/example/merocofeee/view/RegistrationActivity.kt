@@ -1,6 +1,7 @@
-package com.example.merocofeee
+package com.example.merocofeee.view
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -31,6 +32,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.merocofeee.R
+import com.example.merocofeee.model.UserModel
 import com.example.merocofeee.repository.UserRepoImpl
 import com.example.merocofeee.viewmodel.UserViewModel
 
@@ -280,7 +283,7 @@ fun fieldColors() = OutlinedTextFieldDefaults.colors(
     cursorColor = Color.White
 )
 
-fun toast(context: android.content.Context, msg: String) =
+fun toast(context: Context, msg: String) =
     Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 
 @Preview(showBackground = true)

@@ -1,4 +1,4 @@
-package com.example.merocofeee
+package com.example.merocofeee.model
 
 
 data class UserModel(
@@ -23,3 +23,4 @@ data class UserModel(
 
     }
 }
+

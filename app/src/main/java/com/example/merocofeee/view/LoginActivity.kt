@@ -1,4 +1,4 @@
-package com.example.merocofeee
+package com.example.merocofeee.view
 
 import android.app.Activity
 import android.content.Intent
@@ -32,6 +32,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.merocofeee.R
 import com.example.merocofeee.repository.UserRepoImpl
 import com.example.merocofeee.viewmodel.UserViewModel
 
@@ -202,9 +203,14 @@ fun LoginScreen() {
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            "Forgot my password?",
-                            color = Color.White.copy(alpha = 0.8f),
-                            fontSize = 12.sp
+                            buildAnnotatedString {
+
+                                withStyle(SpanStyle(color = Color(0xFFF9B34B))) { append("forgetPassword") }
+                            },
+                            modifier = Modifier.clickable {
+                                context.startActivity(Intent(context, ForgetPasswordActivity::class.java))
+                                activity.finish()
+                            },
                         )
 
                         Spacer(modifier = Modifier.height(10.dp))
