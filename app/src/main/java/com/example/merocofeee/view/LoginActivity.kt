@@ -175,43 +175,43 @@ fun LoginScreen() {
                         Spacer(modifier = Modifier.height(24.dp))
 
                         Button(
-//                            onClick = {
-//                                when {
-//                                    email.isBlank() -> {
-//                                        Toast.makeText(context, "Email required!", Toast.LENGTH_SHORT).show()
-//                                    }
-//
-//                                    password.isBlank() -> {
-//                                        Toast.makeText(context, "Password required!", Toast.LENGTH_SHORT).show()
-//                                    }
-//
-//                                    email == "admin123@gmail.com" && password == "merocoffee" -> {
-//                                        Toast.makeText(context, "Welcome Admin", Toast.LENGTH_SHORT).show()
-//                                        context.startActivity(
-//                                            Intent(context, AdminPanelActivity::class.java)
-//                                        )
-//                                        activity.finish()
-//                                    }
-//
-//                                    else -> {
-//                                        userViewModel.login(email, password) { success, message ->
-//                                            if (success) {
-//                                                Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
-//                                                context.startActivity(
-//                                                    Intent(context, DashboardActivity::class.java)
-//                                                )
-//                                                activity.finish()
-//                                            } else {
-//                                                Toast.makeText(
-//                                                    context,
-//                                                    message ?: "Login failed",
-//                                                    Toast.LENGTH_SHORT
-//                                                ).show()
-//                                            }
-//                                        }
-//                                    }
-//                                }
-                           // },
+                            onClick = {
+                                when {
+                                    email.isBlank() -> {
+                                        Toast.makeText(context, "Email required!", Toast.LENGTH_SHORT).show()
+                                    }
+
+                                    password.isBlank() -> {
+                                        Toast.makeText(context, "Password required!", Toast.LENGTH_SHORT).show()
+                                    }
+
+                                    email == "admin123@gmail.com" && password == "merocoffee" -> {
+                                        Toast.makeText(context, "Welcome Admin", Toast.LENGTH_SHORT).show()
+                                        context.startActivity(
+                                            Intent(context, AdminPanelActivity::class.java)
+                                        )
+                                        activity.finish()
+                                    }
+
+                                    else -> {
+                                        userViewModel.login(email, password) { success, message ->
+                                            if (success) {
+                                                Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
+                                                context.startActivity(
+                                                    Intent(context, DashboardActivity::class.java)
+                                                )
+                                                activity.finish()
+                                            } else {
+                                                Toast.makeText(
+                                                    context,
+                                                    message ?: "Login failed",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        }
+                                    }
+                                }
+                            },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE6A21A)),
                             modifier = Modifier
                                 .fillMaxWidth()
