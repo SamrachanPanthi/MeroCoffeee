@@ -1,322 +1,310 @@
 package com.example.merocofeee
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.lazy.LazyColumn
+import coil3.compose.AsyncImage
+import com.example.merocofeee.model.ProductModel
+import com.example.merocofeee.repository.ProductRepoImpl
+import com.example.merocofeee.repository.UserRepoImpl
+import com.example.merocofeee.view.MenuActivity
+import com.example.merocofeee.viewmodel.ProductViewModel
+import com.example.merocofeee.viewmodel.UserViewModel
 
-// --- 1. Data Models (Simplified, ensure these are accessible/imported) ---
+private val UserModel.fullName: String?
 
-data class QuickAction(val icon: ImageVector, val label: String)
-data class FoodItem(val id: Int, val label: String, val imageResId: Int)
-data class CoffeeProduct(val id: Int, val name: String, val price: Int, val imageResId: Int)
+/* ---------------- COLORS ---------------- */
+val Orange = Color(0xFFFF9800)
+val Field = Color(0x68460505)
+val promo = Color(0xFF6F4E37)
 
-// --- 2. Mock Data (Requires R.drawable.* resources) ---
-// NOTE: Replace R.drawable.X with your actual resource IDs
+/* ---------------- CATEGORY MODEL ---------------- */
+data class Category(val name: String)
 
-val quickActions = listOf(
-    QuickAction(Icons.Default.Favorite, "Favorites"),
-    QuickAction(Icons.AutoMirrored.Filled.List, "History"),
-    QuickAction(Icons.Default.ShoppingCart, "Orders")
+val categories = listOf(
+    Category("Expresso"),
+    Category("Latte"),
+    Category("Bakery"),
+    Category("ColdCoffee"),
+    Category("Cappuccino")
 )
 
-val foodItems = listOf(
-    FoodItem(1, "croissants", R.drawable.cro),
-    FoodItem(2, "muffins", R.drawable.muffin),
-    FoodItem(3, "scones", R.drawable.scone),
-    FoodItem(4, "donuts", R.drawable.donut),
-    FoodItem(5, "bagels", R.drawable.bagel),
-    FoodItem(6, "cookies", R.drawable.cookie),
-    FoodItem(7, "pastries", R.drawable.pastry),
-    FoodItem(8, "waffles", R.drawable.waffle)
-)
-
-val coffeeProducts = listOf(
-    CoffeeProduct(1, "LATTE", 200, R.drawable.lattee),
-    CoffeeProduct(2, "ESPRESSO", 160, R.drawable.expresso),
-    CoffeeProduct(3, "AMERICANO", 300, R.drawable.americano),
-    CoffeeProduct(4, "CAPPUCCINO", 250, R.drawable.cappuccino),
-    CoffeeProduct(5, "MOCHA", 280, R.drawable.mocha),
-    CoffeeProduct(6, "FLAT WHITE", 260, R.drawable.flatwhite),
-    CoffeeProduct(7, "MACCHIATO", 220, R.drawable.macchiato),
-    CoffeeProduct(8, "COLD BREW", 320, R.drawable.coldbrew)
-)
-
-
-// --------------------------------------------------------------------------
-// 3. Main Screen Composable
-// --------------------------------------------------------------------------
-
+/* ---------------- DASHBOARD SCREEN ---------------- */
 @Composable
+fun DashboardScreen() {
+    val userViewModel = remember { UserViewModel(UserRepoImpl()) }
+    val productViewModel = remember { ProductViewModel(ProductRepoImpl()) }
 
-fun HomeScreenContent() {
+    val user by userViewModel.users.observeAsState(null)
+    val products by productViewModel.allProducts.observeAsState(initial = emptyList())
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
+    var selectedCategory by remember { mutableStateOf<Category?>(null) }
+    var searchQuery by remember { mutableStateOf("") }
 
-        item { Spacer(modifier = Modifier.height(8.dp)) }
-        item { SearchBar() }
+    val focusManager = LocalFocusManager.current
 
-        item { QuickActionButtons(actions = quickActions) }
-
-        item { HeroBanner() }
-
-        item { SectionHeader("FOODS TO GO WITH", false) }
-        item { HorizontalFoodList(items = foodItems) }
-
-        item { SectionHeader("COFFEES AVAILABLE", true, showArrow = true) }
-
-        // ⬇️ NEW VERTICAL COFFEE LIST
-        item { VerticalProductList(products = coffeeProducts) }
-
-        item { Spacer(modifier = Modifier.height(80.dp)) }
+    // Load user & products
+    LaunchedEffect(Unit) {
+        userViewModel.getCurrentUser()?.uid?.let { id ->
+            userViewModel.getUserById(id)
+        }
+        productViewModel.getAllProducts { _, _, _ -> }
     }
-}
 
-// --------------------------------------------------------------------------
-// 4. Auxiliary Composables (Components used in HomeScreenContent)
-// --------------------------------------------------------------------------
+    // Load category products
+    LaunchedEffect(selectedCategory) {
+        selectedCategory?.let {
+            productViewModel.getAllProductsByCategory(it.name) { _, _, _ -> }
+        } ?: productViewModel.getAllProducts { _, _, _ -> }
+    }
 
-@Composable
-fun SearchBar() {
-    OutlinedTextField(
-        value = "",
-        onValueChange = { /* Handle input change */ },
-        placeholder = { Text("Search", color = Color.Gray) },
-        leadingIcon = {
-            Icon(Icons.Default.Search, contentDescription = "Search", tint = Color.Black)
-        },
-        shape = RoundedCornerShape(12.dp),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.LightGray.copy(alpha = 0.5f),
-            unfocusedBorderColor = Color.LightGray.copy(alpha = 0.5f),
-            cursorColor = Color.Black,
-            focusedContainerColor = Color(0xFFF8F8F8),
-            unfocusedContainerColor = Color(0xFFF8F8F8)
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 56.dp)
-            .padding(top = 8.dp)
-    )
-}
+    // Filter products by search query
+    val filteredProducts = products.filter {
+        it.title.contains(searchQuery, ignoreCase = true)
+    }.take(6) // 2x3 = 6 products
 
-@Composable
-fun QuickActionButtons(actions: List<QuickAction>) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        actions.forEach { action ->
-            OutlinedButton(
-                onClick = { /* Handle click */ },
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                ),
-                border = BorderStroke(1.dp, Color.LightGray),
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
-            ) {
-                Icon(
-                    imageVector = action.icon,
-                    contentDescription = action.label,
-                    modifier = Modifier.size(20.dp),
-                    tint = Color.Black
+    Scaffold(
+        containerColor = Color.Black,
+        modifier = Modifier.pointerInput(Unit) {
+            detectTapGestures { focusManager.clearFocus() }
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Column(Modifier.padding(16.dp)) {
+                TopBar(user?.fullName)
+                Spacer(Modifier.height(20.dp))
+                SearchBar(searchQuery) { searchQuery = it }
+                Spacer(Modifier.height(20.dp))
+                PromoCard()
+                Spacer(Modifier.height(20.dp))
+                Text(
+                    "Categories",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(action.label, fontSize = 14.sp)
+            }
+
+            CategorySelection(selectedCategory?.name) { name ->
+                selectedCategory =
+                    if (selectedCategory?.name == name) null
+                    else categories.find { it.name == name }
+            }
+
+            Spacer(Modifier.height(20.dp))
+
+            Column(Modifier.padding(horizontal = 16.dp)) {
+                ProductGrid(filteredProducts)
+                Spacer(Modifier.height(80.dp))
             }
         }
     }
 }
 
-@Composable
-fun HeroBanner() {
-    Card(
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(180.dp),
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Image(
-                // R.drawable.beans must exist
-                painter = painterResource(id = R.drawable.beans),
-                contentDescription = "Coffee beans background",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.3f))
-            )
-
-            Text(
-                text = "COFFEE\nANYTIME",
-                color = Color.White,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.ExtraBold,
-                textAlign = TextAlign.End,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-            )
-        }
-    }
-}
+/* ---------------- UI COMPONENTS ---------------- */
 
 @Composable
-fun SectionHeader(title: String, isLarge: Boolean, showArrow: Boolean = false) {
+fun TopBar(name: String?) {
     Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (showArrow) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Go to section",
-                tint = Color.Gray,
-                modifier = Modifier.size(16.dp)
+                Icons.Default.AccountCircle,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(45.dp)
             )
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(Modifier.width(8.dp))
+            Column {
+                Text("Good Morning", color = Color.Gray, fontSize = 12.sp)
+                Text(name ?: "User", color = Color.White, fontWeight = FontWeight.Bold)
+            }
         }
-
-        Text(
-            text = title,
-            fontSize = if (isLarge) 18.sp else 12.sp,
-            fontWeight = if (isLarge) FontWeight.Bold else FontWeight.Normal,
-            color = if (isLarge) Color.Black else Color.Gray,
-        )
+        Icon(Icons.Default.Notifications, null, tint = Color.White)
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FoodItemCard(item: FoodItem) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(end = 16.dp)
-    ) {
-        Image(
-            // R.drawable.cro, R.drawable.muffin, etc. must exist
-            painter = painterResource(id = item.imageResId),
-            contentDescription = item.label,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(80.dp)
-                .clip(CircleShape)
-                .background(Color.LightGray)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = item.label,
-            fontSize = 12.sp,
-            color = Color.Black,
-            textAlign = TextAlign.Center
-        )
-    }
+fun SearchBar(query: String, onChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = query,
+        onValueChange = onChange,
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text("Search", color = Color.Gray) },
+        leadingIcon = { Icon(Icons.Default.Search, null, tint = Color.Gray) },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Field,
+            unfocusedContainerColor = Field,
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
+            focusedIndicatorColor = Orange,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        shape = RoundedCornerShape(16.dp)
+    )
 }
 
 @Composable
-fun HorizontalFoodList(items: List<FoodItem>) {
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 0.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+fun PromoCard() {
+    Card(
+        Modifier
+            .fillMaxWidth()
+            .height(120.dp),
+        colors = CardDefaults.cardColors(containerColor = promo),
+        shape = RoundedCornerShape(20.dp)
     ) {
-        items(items) { item ->
-            FoodItemCard(item)
-        }
-    }
-}
-
-@Composable
-fun ProductCard(product: CoffeeProduct) {
-    Column(
-        modifier = Modifier
-            .width(150.dp)
-            .padding(end = 16.dp)
-    ) {
-        Card(
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(180.dp),
-            elevation = CardDefaults.cardElevation(2.dp)
-        ) {
-            Image(
-                // R.drawable.lattee, R.drawable.expresso, etc. must exist
-                painter = painterResource(id = product.imageResId),
-                contentDescription = product.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+        Column(Modifier.padding(16.dp)) {
+            Text("Get Special Discounts", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(
+                "Up to 35%",
+                color = Color.White,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "PKR ${product.price}",
-            fontSize = 12.sp,
-            color = Color.Gray,
-            fontWeight = FontWeight.Normal
-        )
-        Text(
-            text = product.name,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
-        )
     }
 }
 
 @Composable
-fun VerticalProductList(products: List<CoffeeProduct>) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        products.forEach { product ->
-            ProductCard(product)
+fun CategorySelection(selected: String?, onSelect: (String) -> Unit) {
+    LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
+        items(categories) {
+            Box(
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(if (selected == it.name) Orange else Field)
+                    .clickable { onSelect(it.name) }
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Text(it.name, color = Color.White)
+            }
         }
     }
 }
 
-// Optional Preview for this file
+/* ---------------- PRODUCT GRID & CARD ---------------- */
+
+@Composable
+fun ProductGrid(products: List<ProductModel>) {
+    // 2x3 layout: 2 columns, 3 rows (6 products max)
+    Column {
+        products.chunked(2).forEach { row ->
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                row.forEach { product ->
+                    ProductCard(product, Modifier.weight(1f))
+                }
+                if (row.size == 1) Spacer(Modifier.weight(1f))
+            }
+            Spacer(Modifier.height(12.dp))
+        }
+    }
+}
+
+@Composable
+fun ProductCard(product: ProductModel, modifier: Modifier) {
+    val context = LocalContext.current
+
+    Card(
+        modifier = modifier
+            .clickable {
+                context.startActivity(
+                    Intent(context, MenuActivity::class.java)
+                        .putExtra("productId", product.productId)
+                )
+            }
+            .fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Field),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(8.dp)
+    ) {
+        Column {
+            // Load first image from database URL
+            val imageUrl = product.imageUrl.firstOrNull()
+            if (!imageUrl.isNullOrEmpty()) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = product.title,
+                    placeholder = painterResource(R.drawable.img),
+                    error = painterResource(R.drawable.img),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                )
+            } else {
+                Image(
+                    painter = painterResource(R.drawable.img),
+                    contentDescription = product.title,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                )
+            }
+
+            Column(Modifier.padding(12.dp)) {
+                Text(
+                    text = product.title,
+                    color = Orange,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    maxLines = 1
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = "NPR ${product.price}",
+                    color = Color.White,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp
+                )
+            }
+        }
+    }
+}
+
+/* ---------------- PREVIEW ---------------- */
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
-    HomeScreenContent()
+fun DashboardPreview() {
+    DashboardScreen()
 }
