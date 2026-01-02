@@ -33,7 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
+import com.example.merocofeee.R
 import coil3.compose.AsyncImage
 import com.example.merocofeee.model.ProductModel
 import com.example.merocofeee.repository.ProductRepoImpl
