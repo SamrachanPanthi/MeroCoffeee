@@ -37,7 +37,7 @@ import com.example.merocofeee.view.MenuActivity
 import com.example.merocofeee.viewmodel.ProductViewModel
 import com.example.merocofeee.viewmodel.UserViewModel
 
-private val UserModel.fullName: String?
+
 
 /* ---------------- COLORS ---------------- */
 val Orange = Color(0xFFFF9800)
@@ -101,7 +101,7 @@ fun DashboardScreen() {
                 .verticalScroll(rememberScrollState())
         ) {
             Column(Modifier.padding(16.dp)) {
-                TopBar(user?.fullName)
+                TopBar(user?.fullname)
                 Spacer(Modifier.height(20.dp))
                 SearchBar(searchQuery) { searchQuery = it }
                 Spacer(Modifier.height(20.dp))
