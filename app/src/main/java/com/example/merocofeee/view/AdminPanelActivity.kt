@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
@@ -40,9 +41,7 @@ data class NavItem(
 )
 
 val bottomNavItems = listOf(
-    NavItem("Home", Icons.Default.Home),
-    NavItem("Notifications", Icons.Default.Notifications),
-    NavItem("Cart", Icons.Default.ShoppingCart),
+    NavItem("Home", Icons.Default.Add),
     NavItem("Profile", Icons.Default.Person)
 )
 
@@ -79,8 +78,7 @@ fun MainScreen() {
             when (selectedIndex) {
 //                0 -> DashboardScreen()
 //                1 -> NotificationsScreenContent()
-//                2 -> CartScreenContent ()
-//                3 -> ProfileBody()
+
             }
         }
     }
