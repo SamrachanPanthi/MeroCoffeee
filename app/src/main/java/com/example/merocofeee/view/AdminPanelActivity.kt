@@ -76,7 +76,7 @@ fun MainScreen() {
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when (selectedIndex) {
-//                0 -> DashboardScreen()
+                0 -> SalesRecordScreen()
 //                1 -> NotificationsScreenContent()
 
             }
