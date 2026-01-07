@@ -1,12 +1,10 @@
-package com.example.merocofeee
+package com.example.merocofeee.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -31,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import com.example.merocofeee.R
 
 // --- 1. Data Models (Simplified, ensure these are accessible/imported) ---
 
@@ -38,8 +38,6 @@ data class QuickAction(val icon: ImageVector, val label: String)
 data class FoodItem(val id: Int, val label: String, val imageResId: Int)
 data class CoffeeProduct(val id: Int, val name: String, val price: Int, val imageResId: Int)
 
-// --- 2. Mock Data (Requires R.drawable.* resources) ---
-// NOTE: Replace R.drawable.X with your actual resource IDs
 
 val quickActions = listOf(
     QuickAction(Icons.Default.Favorite, "Favorites"),
@@ -87,7 +85,7 @@ fun HomeScreenContent() {
     ) {
 
         item { Spacer(modifier = Modifier.height(8.dp)) }
-        item { SearchBar() }
+        //item { androidx.compose.material3.SearchBar  }
 
         item { QuickActionButtons(actions = quickActions) }
 
@@ -98,16 +96,12 @@ fun HomeScreenContent() {
 
         item { SectionHeader("COFFEES AVAILABLE", true, showArrow = true) }
 
-        // ⬇️ NEW VERTICAL COFFEE LIST
         item { VerticalProductList(products = coffeeProducts) }
 
         item { Spacer(modifier = Modifier.height(80.dp)) }
     }
 }
 
-// --------------------------------------------------------------------------
-// 4. Auxiliary Composables (Components used in HomeScreenContent)
-// --------------------------------------------------------------------------
 
 @Composable
 fun SearchBar() {
@@ -259,9 +253,9 @@ fun HorizontalFoodList(items: List<FoodItem>) {
         contentPadding = PaddingValues(horizontal = 0.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(items) { item ->
-            FoodItemCard(item)
-        }
+//        LazyListScope.items(items) { item ->
+//            FoodItemCard(item)
+       // }
     }
 }
 

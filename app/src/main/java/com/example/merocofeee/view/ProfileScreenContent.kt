@@ -1,4 +1,4 @@
-package com.example.merocofeee
+package com.example.merocofeee.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
