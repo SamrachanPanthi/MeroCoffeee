@@ -175,7 +175,8 @@ fun LoginScreen() {
                                    userViewModel.login(email.trim(), password.trim()) { success, message ->
                                        if (success) {
                                            Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
-                                           context.startActivity(Intent(context, DashboardActivity::class.java))
+                                           context.startActivity(Intent(context, DashboardActivity2
+                                           ::class.java))
                                            activity.finish()
                                        } else {
 

@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.merocofeee.repository.UserRepoImpl
-import com.example.merocofeee.ui.theme.CoffeeOrange
+import com.example.merocofeee.ui.theme.ColorOrange
 import com.example.merocofeee.viewmodel.UserViewModel
 
 
@@ -62,9 +62,9 @@ fun MainScreen() {
                         selected = selectedIndex == index,
                         onClick = { selectedIndex = index },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = CoffeeOrange,
+                            selectedIconColor =ColorOrange,
                             unselectedIconColor = Color.Gray,
-                            selectedTextColor = CoffeeOrange,
+                            selectedTextColor = ColorOrange,
                             unselectedTextColor = Color.Gray,
                             indicatorColor = Color.Transparent
                         )
@@ -77,7 +77,7 @@ fun MainScreen() {
             when (selectedIndex) {
                 0 -> DashboardScreen()
                 1 -> NotificationsScreenContent()
-                2 -> CartScreenContent ()
+                2 -> Cart()
                 3 -> ProfileBody()
             }
         }

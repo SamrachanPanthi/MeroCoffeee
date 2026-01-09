@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DashboardActivity"
+            android:name=".DashboardActivity2"
             android:exported="true"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.MeroCofeee">
