@@ -1,4 +1,4 @@
-package com.example.merocofeee
+package com.example.merocofeee.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 
 
 @Composable
-fun ProfileBody(){
+fun ExploreContent(){
     Column(
         modifier = Modifier.fillMaxSize().background(Color.Magenta)
     ) {

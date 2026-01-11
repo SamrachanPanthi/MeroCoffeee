@@ -1,6 +1,7 @@
 package com.example.merocofeee.repository
 
-import com.example.merocofeee.UserModel
+
+import com.example.merocofeee.model.UserModel
 import com.google.firebase.auth.FirebaseUser
 
 interface UserRepo {

@@ -1,6 +1,7 @@
 package com.example.merocofeee.view
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -28,9 +29,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.merocofeee.R
+import com.example.merocofeee.repository.UserRepo
 import com.example.merocofeee.repository.UserRepoImpl
 import com.example.merocofeee.viewmodel.UserViewModel
-import com.example.merocofeee.R
 
 class ForgetPasswordActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -185,10 +187,11 @@ fun ForgetPasswordScreen() {
                         Spacer(modifier = Modifier.height(12.dp))
 
                         Text(
-                            text = "Back to Login",
-                            color = Color(0xFFF9B34B),
-                            fontSize = 14.sp,
+                            "Return back to login",
+                            color = Color.White,
+                            fontSize = 12.sp,
                             modifier = Modifier.clickable {
+                                activity.startActivity(Intent(context, LoginActivity::class.java))
                                 activity.finish()
                             }
                         )

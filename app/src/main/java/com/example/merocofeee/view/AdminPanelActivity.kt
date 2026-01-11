@@ -1,5 +1,6 @@
-package com.example.merocofeee
+package com.example.merocofeee.view
 
+import android.R.color.white
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
@@ -16,13 +18,14 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Blue
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.merocofeee.repository.UserRepoImpl
-import com.example.merocofeee.ui.theme.ColorOrange
 import com.example.merocofeee.viewmodel.UserViewModel
 
 
-class DashboardActivity2 : ComponentActivity() {
+class AdminPanelActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -38,9 +41,7 @@ data class NavItem(
 )
 
 val bottomNavItems = listOf(
-    NavItem("Home", Icons.Default.Home),
-    NavItem("Notifications", Icons.Default.Notifications),
-    NavItem("Cart", Icons.Default.ShoppingCart),
+    NavItem("Home", Icons.Default.Add),
     NavItem("Profile", Icons.Default.Person)
 )
 
@@ -62,9 +63,9 @@ fun MainScreen() {
                         selected = selectedIndex == index,
                         onClick = { selectedIndex = index },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor =ColorOrange,
+                            selectedIconColor = Blue,
                             unselectedIconColor = Color.Gray,
-                            selectedTextColor = ColorOrange,
+                            selectedTextColor = White,
                             unselectedTextColor = Color.Gray,
                             indicatorColor = Color.Transparent
                         )
@@ -75,10 +76,9 @@ fun MainScreen() {
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when (selectedIndex) {
-                0 -> DashboardScreen()
-                1 -> NotificationsScreenContent()
-                2 -> Cart()
-                3 -> ProfileBody()
+                0 -> SalesRecordScreen()
+//                1 -> NotificationsScreenContent()
+
             }
         }
     }

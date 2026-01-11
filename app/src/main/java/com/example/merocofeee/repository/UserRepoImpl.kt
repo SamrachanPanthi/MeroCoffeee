@@ -1,7 +1,8 @@
 package com.example.merocofeee.repository
 
 import androidx.compose.animation.core.snap
-import com.example.merocofeee.UserModel
+
+import com.example.merocofeee.model.UserModel
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
