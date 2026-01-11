@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "452023153246",
+    "firebase_url": "https://mero-coffee2-default-rtdb.firebaseio.com",
+    "project_id": "mero-coffee2",
+    "storage_bucket": "mero-coffee2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452023153246:android:64c09c8e1a784c525f3acf",
+        "android_client_info": {
+          "package_name": "com.example.merocofeee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEML1kOSSb9xZKppG_XIuMnPbrMZybs-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

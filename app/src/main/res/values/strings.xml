@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MeroCofeee</string>
+    <string name="title_activity_login2">LoginActivity2</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_forget_password">ForgetPasswordActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_admin_panel">AdminPanelActivity</string>
 </resources>
