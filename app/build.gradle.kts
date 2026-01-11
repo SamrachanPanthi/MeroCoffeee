@@ -60,4 +60,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    implementation("androidx.compose.runtime:runtime-livedata:1.10.0")
+    implementation("com.cloudinary:cloudinary-android:2.1.0")
+    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
 }

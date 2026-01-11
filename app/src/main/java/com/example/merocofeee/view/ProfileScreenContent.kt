@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 
 
 @Composable
-fun ProfileScreenContent(){
+fun ProfileBody(){
     Column(
         modifier = Modifier.fillMaxSize().background(Color.Magenta)
     ) {

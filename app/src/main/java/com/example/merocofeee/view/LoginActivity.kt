@@ -198,7 +198,7 @@ fun LoginScreen() {
                                             if (success) {
                                                 Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
                                                 context.startActivity(
-                                                    Intent(context, DashboardActivity::class.java)
+                                                    Intent(context, DashboardActivity2::class.java)
                                                 )
                                                 activity.finish()
                                             } else {
