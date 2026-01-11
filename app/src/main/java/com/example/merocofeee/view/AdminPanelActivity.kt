@@ -30,25 +30,35 @@ class AdminPanelActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MainScreen()
+            AdminScreen()
         }
     }
 }
 
-data class NavItem(
-    val label: String,
-    val icon: ImageVector,
+// Renamed data class
+data class DashboardNavItem(
+    val title: String,
+    val icon: ImageVector
 )
 
-val bottomNavItems = listOf(
-    NavItem("Home", Icons.Default.Add),
-    NavItem("Profile", Icons.Default.Person)
+// Renamed nav items list
+val dashboardBottomNavItems = listOf(
+    DashboardNavItem("Dashboard", Icons.Default.Home),
+    DashboardNavItem("Account", Icons.Default.Person)
 )
 
 @Composable
-fun MainScreen() {
-    var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
-    val userViewModel = remember { UserViewModel(UserRepoImpl()) }
+fun AdminScreen() {
+
+    // Renamed state variable
+    var currentTabIndex by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+
+    // Renamed ViewModel instance
+    val adminUserViewModel = remember {
+        UserViewModel(UserRepoImpl())
+    }
 
     Scaffold(
         containerColor = Color.Black,
@@ -56,12 +66,21 @@ fun MainScreen() {
             NavigationBar(
                 containerColor = Color.Black
             ) {
-                bottomNavItems.forEachIndexed { index, item ->
+                dashboardBottomNavItems.forEachIndexed { index, navItem ->
                     NavigationBarItem(
-                        label = { Text(item.label) },
-                        icon = { Icon(item.icon, contentDescription = item.label) },
-                        selected = selectedIndex == index,
-                        onClick = { selectedIndex = index },
+                        label = {
+                            Text(navItem.title)
+                        },
+                        icon = {
+                            Icon(
+                                navItem.icon,
+                                contentDescription = navItem.title
+                            )
+                        },
+                        selected = currentTabIndex == index,
+                        onClick = {
+                            currentTabIndex = index
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = Blue,
                             unselectedIconColor = Color.Gray,
@@ -74,11 +93,13 @@ fun MainScreen() {
             }
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
-            when (selectedIndex) {
-                0 -> SalesRecordScreen()
-//                1 -> NotificationsScreenContent()
 
+        Box(
+            modifier = Modifier.padding(paddingValues)
+        ) {
+            when (currentTabIndex) {
+                0 -> SalesRecordScreen()
+                //1 -> AdminProfileScreen()
             }
         }
     }
