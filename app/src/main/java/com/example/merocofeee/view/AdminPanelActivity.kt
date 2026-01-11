@@ -1,6 +1,6 @@
 package com.example.merocofeee.view
 
-import android.R.color.white
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,21 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Blue
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.merocofeee.repository.UserRepoImpl
-import com.example.merocofeee.viewmodel.UserViewModel
+import androidx.compose.ui.platform.LocalContext
 
 
 class AdminPanelActivity : ComponentActivity() {
@@ -30,76 +24,65 @@ class AdminPanelActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AdminScreen()
+            AdminMainScreen()
         }
     }
 }
 
-// Renamed data class
-data class DashboardNavItem(
-    val title: String,
-    val icon: ImageVector
+data class AdminNavItem(
+    val label: String,
+    val icon: ImageVector,
+    val isActivity: Boolean = false // Flag to check if it should launch an Activity
 )
 
-// Renamed nav items list
-val dashboardBottomNavItems = listOf(
-    DashboardNavItem("Dashboard", Icons.Default.Home),
-    DashboardNavItem("Account", Icons.Default.Person)
+val adminNavItems = listOf(
+    AdminNavItem("Sales", Icons.Default.CheckCircle),
+    AdminNavItem("Add Product", Icons.Default.AddCircle, isActivity = true)
 )
 
 @Composable
-fun AdminScreen() {
-
-    // Renamed state variable
-    var currentTabIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
-
-    // Renamed ViewModel instance
-    val adminUserViewModel = remember {
-        UserViewModel(UserRepoImpl())
-    }
+fun AdminMainScreen() {
+    var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
+    val context = LocalContext.current
 
     Scaffold(
-        containerColor = Color.Black,
+        containerColor = Color(0xFFFDF5E6), // Using the light theme background
         bottomBar = {
             NavigationBar(
-                containerColor = Color.Black
+                containerColor = Color.White
             ) {
-                dashboardBottomNavItems.forEachIndexed { index, navItem ->
+                adminNavItems.forEachIndexed { index, item ->
                     NavigationBarItem(
-                        label = {
-                            Text(navItem.title)
-                        },
-                        icon = {
-                            Icon(
-                                navItem.icon,
-                                contentDescription = navItem.title
-                            )
-                        },
-                        selected = currentTabIndex == index,
+                        label = { Text(item.label) },
+                        icon = { Icon(item.icon, contentDescription = item.label) },
+                        // Only the composable screen can be 'selected'.
+                        selected = !item.isActivity && selectedIndex == index,
                         onClick = {
-                            currentTabIndex = index
+                            if (item.isActivity) {
+                                // If it's an activity, launch it directly
+                                context.startActivity(Intent(context, AddProductActivity::class.java))
+                            } else {
+                                // Otherwise, switch the displayed composable
+                                selectedIndex = index
+                            }
                         },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Blue,
+                            selectedIconColor = Color(0xFF4E342E), // DarkBrown
                             unselectedIconColor = Color.Gray,
-                            selectedTextColor = White,
+                            selectedTextColor = Color(0xFF4E342E),
                             unselectedTextColor = Color.Gray,
-                            indicatorColor = Color.Transparent
+                            indicatorColor = Color(0xFFFDF5E6) // CreamBackground
                         )
                     )
                 }
             }
         }
     ) { paddingValues ->
-
-        Box(
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            when (currentTabIndex) {
+        Box(modifier = Modifier.padding(paddingValues)) {
+            // The when block now only needs to handle composable screens
+            when (selectedIndex) {
                 0 -> SalesRecordScreen()
-                //1 -> AdminProfileScreen()
+                // Add other composable admin screens here in the future
             }
         }
     }
