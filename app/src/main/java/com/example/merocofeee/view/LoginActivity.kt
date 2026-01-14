@@ -236,6 +236,23 @@ fun LoginScreen() {
                                 )
                                 activity.finish()
                             },
+
+                            fontSize = 14.sp,
+                            color = Color.White
+                        )
+                        Text(
+                            buildAnnotatedString {
+                                append("forget Password? ")
+                                withStyle(SpanStyle(color = Color(0xFFF9B34B))) {
+                                    append(" forget Password ??")
+                                }
+                            },
+                            modifier = Modifier.clickable {
+                                context.startActivity(
+                                    Intent(context, ForgetPasswordActivity::class.java)
+                                )
+                                activity.finish()
+                            },
                             fontSize = 14.sp,
                             color = Color.White
                         )

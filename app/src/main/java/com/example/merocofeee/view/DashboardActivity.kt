@@ -17,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.merocofeee.DashboardScreen
 import com.example.merocofeee.repository.UserRepoImpl
 import com.example.merocofeee.ui.theme.ColorOrange
 import com.example.merocofeee.viewmodel.UserViewModel
@@ -77,7 +78,7 @@ fun MainScreen() {
             when (selectedIndex) {
                 0 -> DashboardScreen()
                 1 -> NotificationsScreenContent()
-                2 -> Cart()
+                2 ->   SalesRecordScreen()
                 3 -> ProfileBody()
             }
         }
