@@ -2,7 +2,7 @@ package com.example.merocofeee.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.merocofeee.UserModel
+import com.example.merocofeee.model.UserModel
 import com.example.merocofeee.repository.UserRepo
 
 

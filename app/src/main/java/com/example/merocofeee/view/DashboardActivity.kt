@@ -1,4 +1,4 @@
-package com.example.merocofeee
+package com.example.merocofeee.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
