@@ -4,7 +4,7 @@ data class ProductModel(
     val title: String = "",
     val listedBy: String = "",
     val description: String = "",
-    val imageUrl: List<String> = emptyList(),
+    val imageUrl: String = "",
     val price: Double = 0.0,
     val productId: String = "", // primary key
     val availability: Boolean = true,
@@ -13,6 +13,7 @@ data class ProductModel(
     val ratingCount: Int = 0,
     val category: String = "", //foreign key,
     val verified: Boolean = false,
+    val quantity: Int = 1,
 
     val flagged: Boolean = false
 ){
@@ -30,7 +31,8 @@ data class ProductModel(
             "category" to category,
             "imageUrl" to imageUrl,
             "verified" to verified,
-            "flagged" to flagged
+            "flagged" to flagged,
+            "quantity" to quantity
         )
     }
 }

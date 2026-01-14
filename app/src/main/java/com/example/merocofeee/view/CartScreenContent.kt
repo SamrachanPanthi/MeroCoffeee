@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import com.example.merocofeee.R
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -53,9 +54,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.example.merocofeee.model.OrderModel
 import com.example.merocofeee.model.ProductModel
 import com.example.merocofeee.repository.UserRepoImpl
 import com.example.merocofeee.viewmodel.CartViewModel
+import com.example.merocofeee.viewmodel.OrderViewModel
 import com.example.merocofeee.viewmodel.UserViewModel
 
 
@@ -199,7 +202,7 @@ fun QuantitySelector(quantity: Int, onIncrease: () -> Unit, onDecrease: () -> Un
             .border(1.dp, DarkBrown.copy(alpha = 0.1f), RoundedCornerShape(12.dp))
     ) {
         IconButton(onClick = onDecrease, modifier = Modifier.size(36.dp)) {
-            Icon(Icons.Default.Remove, contentDescription = "Decrease quantity", tint = DarkBrown)
+            Icon(painter = painterResource(R.drawable.baseline_remove_24), contentDescription = "Decrease quantity", tint = DarkBrown)
         }
         Text(
             text = "$quantity",
