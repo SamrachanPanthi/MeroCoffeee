@@ -65,7 +65,7 @@ fun AdminMainScreen() {
                                 // If it's an activity, launch it directly
                                 context.startActivity(Intent(context, AddProductActivity::class.java))
                             } else {
-                                // Otherwise, switch the displayed composable
+
                                 selectedIndex = index
                             }
                         },
@@ -74,7 +74,7 @@ fun AdminMainScreen() {
                             unselectedIconColor = Color.Gray,
                             selectedTextColor = Color(0xFF4E342E),
                             unselectedTextColor = Color.Gray,
-                            indicatorColor = Color(0xFFFDF5E6) // CreamBackground
+                            indicatorColor = Color(0xFFFDF5E6)
                         )
                     )
                 }
@@ -82,7 +82,7 @@ fun AdminMainScreen() {
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            // The when block now handles the new Orders screen
+
             when (selectedIndex) {
                 0 -> SalesRecordScreen()
                 1 -> AdminOrdersScreen()
