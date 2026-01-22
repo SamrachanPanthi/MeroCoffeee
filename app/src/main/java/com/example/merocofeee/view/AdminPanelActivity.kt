@@ -34,7 +34,7 @@ class AdminPanelActivity : ComponentActivity() {
 data class AdminNavItem(
     val label: String,
     val icon: ImageVector,
-    val isActivity: Boolean = false // Flag to check if it should launch an Activity
+    val isActivity: Boolean = false
 )
 
 val adminNavItems = listOf(
@@ -62,7 +62,7 @@ fun AdminMainScreen() {
                         selected = !item.isActivity && selectedIndex == index,
                         onClick = {
                             if (item.isActivity) {
-                                // If it's an activity, launch it directly
+
                                 context.startActivity(Intent(context, AddProductActivity::class.java))
                             } else {
 
