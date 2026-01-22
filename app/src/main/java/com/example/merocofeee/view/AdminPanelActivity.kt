@@ -86,7 +86,7 @@ fun AdminMainScreen() {
             when (selectedIndex) {
                 0 -> SalesRecordScreen()
                 1 -> AdminOrdersScreen()
-                // Add other composable admin screens here in the future
+
             }
         }
     }
