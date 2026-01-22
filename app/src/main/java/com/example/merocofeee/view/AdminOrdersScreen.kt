@@ -112,15 +112,15 @@ fun AdminOrderCard(order: OrderModel) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(order.orderId, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, color = DarkBrown))
-                Text(formatTimestamp(order.timestamp as? Long ?: 0L), style = MaterialTheme.typography.bodySmall.copy(color = com.example.merocoffee.view.SoftGray))
+               // Text(formatTimestamp(order.timestamp as? Long ?: 0L), style = MaterialTheme.typography.bodySmall.copy(color = com.example.merocoffee.view.SoftGray))
                         }
             Spacer(modifier = Modifier.height(4.dp))
             Text("User: ${order.user}", style = MaterialTheme.typography.bodyMedium.copy(color = SoftGray))
             Spacer(modifier = Modifier.height(12.dp))
 
-            order.items.forEach {
-                Text("• ${it.quantity}x ${it.title}")
-            }
+            //order.items.forEach {
+                //Text("• ${it.quantity}x ${it.title}")
+           // }
 
             Spacer(modifier = Modifier.height(12.dp))
 
