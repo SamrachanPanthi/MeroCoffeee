@@ -78,7 +78,7 @@ fun MainScreen() {
             when (selectedIndex) {
                 0 -> DashboardScreen()
                 1 -> NotificationsScreenContent()
-                2 ->   SalesRecordScreen()
+                2 -> Cart()
                 3 -> ProfileBody()
             }
         }
