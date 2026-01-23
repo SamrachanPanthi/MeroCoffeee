@@ -58,7 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import coil3.compose.AsyncImage
+import coil.compose.AsyncImage
 import com.example.merocofeee.model.ProductModel
 import com.example.merocofeee.repository.ProductRepoImpl
 import com.example.merocofeee.repository.UserRepoImpl
