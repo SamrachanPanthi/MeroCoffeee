@@ -9,3 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 
+@Composable
+fun NotificationsScreenContent(){
+    Column(
+        modifier = Modifier.fillMaxSize().background(Color.Magenta)
+    ) {
+
+        Text("Profile Screen")
+    }
+}
