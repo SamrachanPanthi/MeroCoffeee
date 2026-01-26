@@ -1,4 +1,4 @@
-package com.example.merocofeee
+package com.example.merocofeee.view
 
 import android.content.Intent
 import android.widget.Toast
@@ -58,11 +58,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import coil3.compose.AsyncImage
+import coil.compose.AsyncImage
+import com.example.merocofeee.R
 import com.example.merocofeee.model.ProductModel
 import com.example.merocofeee.repository.ProductRepoImpl
 import com.example.merocofeee.repository.UserRepoImpl
-import com.example.merocofeee.view.MenuActivity
+import com.example.merocofeee.viewmodel.CartViewModel
 import com.example.merocofeee.viewmodel.ProductViewModel
 import com.example.merocofeee.viewmodel.UserViewModel
 import java.util.Calendar
@@ -412,8 +413,8 @@ fun NewProductCard(product: ProductModel, modifier: Modifier = Modifier) {
                     Text("Rs. ${product.price}", fontWeight = FontWeight.ExtraBold, fontSize = 16.sp, color = DarkBrown)
                     IconButton(
                         onClick = {
-//                            CartViewModel.addToCart(product)
-//                            Toast.makeText(context, "${product.title} added to cart", Toast.LENGTH_SHORT).show()
+                            CartViewModel.addToCart(product)
+                            Toast.makeText(context, "${product.title} added to cart", Toast.LENGTH_SHORT).show()
                         },
                         modifier = Modifier
                             .size(32.dp)

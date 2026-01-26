@@ -13,49 +13,34 @@
         android:theme="@style/Theme.MeroCofeee"
         tools:replace="android:fullBackupContent">
         <activity
+            android:name=".view.OrderPlacedActivity"
+            android:exported="false"
+            android:label="@string/title_activity_order_placed"
+            android:theme="@style/Theme.MeroCofeee" />
+        <activity
             android:name=".view.AdminPanelActivity"
             android:exported="true"
             android:label="@string/title_activity_admin_panel"
-            android:theme="@style/Theme.MeroCofeee">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.MeroCofeee"/>
         <activity
             android:name=".view.MenuActivity"
             android:exported="true"
             android:label="@string/title_activity_menu"
-            android:theme="@style/Theme.MeroCofeee">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.MeroCofeee"/>
+        <activity
+            android:name=".view.AddProductActivity"
+            android:exported="true"
+            android:label="@string/title_activity_add_product"/>
         <activity
             android:name=".view.ForgetPasswordActivity"
             android:exported="true"
             android:label="@string/title_activity_forget_password"
-            android:theme="@style/Theme.MeroCofeee">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.MeroCofeee"/>
         <activity
             android:name=".view.DashboardActivity2"
             android:exported="true"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.MeroCofeee">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.MeroCofeee"/>
         <activity
             android:name=".view.SplashActivity"
             android:exported="true"
@@ -71,24 +56,12 @@
             android:name=".view.RegistrationActivity"
             android:exported="true"
             android:label="@string/title_activity_registration"
-            android:theme="@style/Theme.MeroCofeee">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.MeroCofeee"/>
         <activity
             android:name=".view.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login2"
-            android:theme="@style/Theme.MeroCofeee">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.MeroCofeee"/>
     </application>
 
 </manifest>
