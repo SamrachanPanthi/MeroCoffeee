@@ -118,9 +118,9 @@ fun AdminOrderCard(order: OrderModel) {
             Text("User: ${order.user}", style = MaterialTheme.typography.bodyMedium.copy(color = SoftGray))
             Spacer(modifier = Modifier.height(12.dp))
 
-            //order.items.forEach {
-                //Text("• ${it.quantity}x ${it.title}")
-           // }
+            order.items.forEach {
+                Text("• ${it.quantity}x ${it.title}")
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 
