@@ -7,5 +7,6 @@ data class OrderModel(
     val items: List<ProductModel> = emptyList(),
     val totalPrice: Double = 0.0,
     val timestamp: Any = ServerValue.TIMESTAMP, // Automatically set by Firebase
-    val user: String = "" // ID of the user who made the purchase
+    val user: String = "", // ID of the user who made the purchase
+    val pickupTime: String = " "
 )

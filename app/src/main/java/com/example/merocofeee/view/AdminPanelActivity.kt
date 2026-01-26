@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.CheckCircle
+
+import androidx.compose.material.icons.filled.Home
+
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -17,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-
 
 class AdminPanelActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +34,12 @@ class AdminPanelActivity : ComponentActivity() {
 data class AdminNavItem(
     val label: String,
     val icon: ImageVector,
-    val isActivity: Boolean = false // Flag to check if it should launch an Activity
+    val isActivity: Boolean = false
 )
 
 val adminNavItems = listOf(
-    AdminNavItem("Sales", Icons.Default.CheckCircle),
+    AdminNavItem("Sales", Icons.Default.Home),
+    AdminNavItem("Orders", Icons.Default.ShoppingCart),
     AdminNavItem("Add Product", Icons.Default.AddCircle, isActivity = true)
 )
 
@@ -59,10 +62,10 @@ fun AdminMainScreen() {
                         selected = !item.isActivity && selectedIndex == index,
                         onClick = {
                             if (item.isActivity) {
-                                // If it's an activity, launch it directly
+
                                 context.startActivity(Intent(context, AddProductActivity::class.java))
                             } else {
-                                // Otherwise, switch the displayed composable
+
                                 selectedIndex = index
                             }
                         },
@@ -71,7 +74,7 @@ fun AdminMainScreen() {
                             unselectedIconColor = Color.Gray,
                             selectedTextColor = Color(0xFF4E342E),
                             unselectedTextColor = Color.Gray,
-                            indicatorColor = Color(0xFFFDF5E6) // CreamBackground
+                            indicatorColor = Color(0xFFFDF5E6)
                         )
                     )
                 }
@@ -79,10 +82,11 @@ fun AdminMainScreen() {
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            // The when block now only needs to handle composable screens
+
             when (selectedIndex) {
                 0 -> SalesRecordScreen()
-                // Add other composable admin screens here in the future
+                1 -> AdminOrdersScreen()
+
             }
         }
     }
