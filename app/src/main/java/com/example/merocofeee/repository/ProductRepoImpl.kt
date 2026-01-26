@@ -179,11 +179,12 @@ class ProductRepoImpl : ProductRepo {
     }
     private val cloudinary = Cloudinary(
         mapOf(
-            "cloud_name" to "dvdhyjueq",
-            "api_key" to "321868156979671",
-            "api_secret" to "26X6sAj_dNl_fCEfaSleZe0NUfk"
+            "cloud_name" to "dkviawapl",
+            "api_key" to "518886281689279",
+            "api_secret" to "_76fV2cVa2pDTxNSV1Dp9s-8ltQ"
         )
     )
+
 
 
     override fun uploadImage(
