@@ -44,7 +44,7 @@ private val CreamBackground = Color(0xFFFDF5E6)
 private val DarkBrown = Color(0xFF4E342E)
 private val SoftGray = Color(0xFF757575)
 
-// --- Data class for each setting item ---
+
 data class PrivacyItem(val icon: ImageVector, val title: String, val description: String)
 
 @Composable
