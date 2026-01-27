@@ -114,12 +114,11 @@ fun EditProfileScreen(onBack: () -> Unit) {
                     val updatedUser = UserModel(
                         firstname = firstName,
                         lastname = lastName,
-                      //  fullname = fullName,
                         gender = gender,
 
                         dob = dob,
                         email = email,
-                        //profileImage = user?.profileImage ?: "",
+
                         userId = userId
                     )
 
