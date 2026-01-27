@@ -79,7 +79,7 @@ fun MainScreen() {
                 0 -> DashboardScreen()
                 1 -> NotificationsScreenContent()
                 2 -> Cart()
-                3 -> ProfileBody()
+                3 -> ProfileScreen()
             }
         }
     }
