@@ -215,10 +215,6 @@ fun MenuContent(product: ProductModel) {
     }
 }
 
-// ==========================================================
-// NEW UI COMPONENTS
-// ==========================================================
-
 @Composable
 fun CustomizationButton(label: String, isSelected: Boolean, onClick: () -> Unit) {
     val backgroundColor = if (isSelected) AccentOrange.copy(alpha = 0.1f) else Color.Transparent
