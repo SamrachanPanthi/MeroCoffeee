@@ -95,16 +95,6 @@ fun EditProfileScreen(onBack: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            //AsyncImage(
-//                model = imageUri ?: user?.profileImage,
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .size(120.dp)
-//                    .clip(CircleShape)
-//                    .border(2.dp, Color.Black, CircleShape)
-//                    .clickable { imagePicker.launch("image/*") },
-//                contentScale = ContentScale.Crop
-            //)
 
             Spacer(Modifier.height(20.dp))
 
