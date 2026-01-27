@@ -133,7 +133,7 @@ fun MenuContent(product: ProductModel) {
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            // --- IMAGE HEADER ---
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
