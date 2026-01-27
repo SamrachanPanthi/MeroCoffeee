@@ -88,9 +88,7 @@ class MenuActivity : ComponentActivity() {
     }
 }
 
-// ==========================================================
-// MAIN MENU SCREEN
-// ==========================================================
+
 @Composable
 fun MenuScreen(productId: String) {
     val productViewModel = remember { ProductViewModel(ProductRepoImpl()) }
