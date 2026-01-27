@@ -157,7 +157,7 @@ fun MenuContent(product: ProductModel) {
                 }
             }
 
-            // --- DETAILS SHEET ---
+
             Column(modifier = Modifier.padding(24.dp)) {
                 // Title and Rating
                 Text(product.title, style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.ExtraBold, color = DarkBrown))
@@ -205,7 +205,7 @@ fun MenuContent(product: ProductModel) {
             }
         }
 
-        // --- BOTTOM BAR ---
+
         ProductBottomBar(price = finalPrice) {
             CartViewModel.addToCart(product)
             Toast.makeText(context, "${product.title} added to cart", Toast.LENGTH_SHORT).show()
