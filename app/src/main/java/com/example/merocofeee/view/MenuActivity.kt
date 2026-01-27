@@ -70,7 +70,7 @@ import kotlin.collections.forEach
 import kotlin.text.format
 import kotlin.text.isNotEmpty
 
-// --- THEME COLORS (consistent with homescreen.kt) ---
+
 private val CreamBackground = Color(0xFFFDF5E6)
 private val DarkBrown = Color(0xFF4E342E)
 private val AccentOrange = Color(0xFFFF9800)
