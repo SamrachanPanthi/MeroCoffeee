@@ -143,7 +143,7 @@ fun ProfileMainScreen(
         ProfileItem(R.drawable.baseline_person_2_24, "Edit Profile") { onNavigate(1) }
 
         ProfileItem(R.drawable.outline_security_24, "Privacy & Security") { onNavigate(3) }
-        ProfileItem(R.drawable.outline_settings_24, "App Settings") { onNavigate(4) }
+
         ProfileItem(R.drawable.baseline_help_outline_24, "Help & Support") { onNavigate(5) }
 
         Spacer(Modifier.height(20.dp))
