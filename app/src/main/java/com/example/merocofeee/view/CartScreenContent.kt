@@ -53,12 +53,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.merocofeee.model.AppNotification
 import com.example.merocofeee.model.OrderModel
 import com.example.merocofeee.model.ProductModel
 import com.example.merocofeee.repository.UserRepoImpl
+import com.example.merocofeee.utils.NotificationHelper
 import com.example.merocofeee.viewmodel.CartViewModel
 import com.example.merocofeee.viewmodel.OrderViewModel
 import com.example.merocofeee.viewmodel.UserViewModel
+import com.google.firebase.database.FirebaseDatabase
 
 
 // --- THEME COLORS ---
@@ -258,7 +261,25 @@ fun CheckoutBottomBar(subtotal: Double, cartItems: List<ProductModel>) {
                     orderViewModel.placeOrder(order) { success, message ->
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                         if (success) {
-                            // Important: Clear the cart via the ViewModel
+                            // --- NOTIFICATION LOGIC ---
+                            val notificationHelper = NotificationHelper(context)
+                            val database = FirebaseDatabase.getInstance().getReference("notifications")
+                            val notificationId = database.child(userId).push().key ?: ""
+                            
+                            val newNotification = AppNotification(
+                                id = notificationId,
+                                title = "Order Placed ☕",
+                                message = "Your coffee is being prepared",
+                                timestamp = System.currentTimeMillis()
+                            )
+
+                            // 1. Show banner
+                            notificationHelper.showNotification(newNotification.title, newNotification.message)
+                            
+                            // 2. Save to history
+                            database.child(userId).child(notificationId).setValue(newNotification)
+                            // ---------------------------
+
                             cartItems.forEach { CartViewModel.removeFromCart(it) }
                             val intent = Intent(context, OrderPlacedActivity::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

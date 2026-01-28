@@ -15,18 +15,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.merocofeee.viewmodel.NotificationViewModel
 import com.example.merocofeee.model.AppNotification
+import com.example.merocofeee.viewmodel.NotificationViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun NotificationsScreenContent(
-    userId: String = "demo_user"
-) {
+fun NotificationsScreenContent() {
     val notificationViewModel: NotificationViewModel = viewModel()
-
     val notifications by notificationViewModel.notifications.collectAsState()
+    
+    // --- FIX: Get actual logged in user ID ---
+    val auth = FirebaseAuth.getInstance()
+    val userId = auth.currentUser?.uid ?: "demo_user"
 
-    LaunchedEffect(Unit) {
+    // Load notifications for the CURRENT user
+    LaunchedEffect(userId) {
         notificationViewModel.loadNotifications(userId)
     }
 
@@ -41,6 +44,7 @@ fun NotificationsScreenContent(
             text = "Notifications",
             fontSize = MaterialTheme.typography.titleLarge.fontSize,
             fontWeight = FontWeight.Bold,
+            color = Color.Black,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
@@ -49,10 +53,16 @@ fun NotificationsScreenContent(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text("No notifications yet", color = Color.Gray)
+                Text(
+                    text = "No notifications yet",
+                    color = Color.Gray
+                )
             }
         } else {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 items(notifications) { notification ->
                     NotificationItem(notification)
                 }
@@ -67,10 +77,21 @@ fun NotificationItem(notification: AppNotification) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp)
     ) {
-        Column(Modifier.padding(16.dp)) {
-            Text(notification.title, fontWeight = FontWeight.Bold)
-            Spacer(Modifier.height(6.dp))
-            Text(notification.message)
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = notification.title,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = notification.message,
+                color = Color.DarkGray
+            )
         }
     }
 }
