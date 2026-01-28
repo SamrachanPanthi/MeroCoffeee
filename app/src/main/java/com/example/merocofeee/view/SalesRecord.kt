@@ -222,9 +222,7 @@ fun EmptySalesView(modifier: Modifier = Modifier) {
     }
 }
 
-// ==========================================================
-// UTIL
-// ==========================================================
+
 
 fun formatTimestamp(timestamp: Long): String {
     if (timestamp == 0L) return ""
