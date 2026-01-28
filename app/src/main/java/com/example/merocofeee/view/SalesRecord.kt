@@ -129,9 +129,6 @@ fun SalesRecordScreen() {
     }
 }
 
-// ==========================================================
-// UI COMPONENTS
-// ==========================================================
 
 @Composable
 fun SalesTopAppBar() {
@@ -231,9 +228,7 @@ fun formatTimestamp(timestamp: Long): String {
     return format.format(date)
 }
 
-// ==========================================================
-// PREVIEW
-// ==========================================================
+
 
 @Preview(showBackground = true, backgroundColor = 0xFFFDF5E6)
 @Composable
