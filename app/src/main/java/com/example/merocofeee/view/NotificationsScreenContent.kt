@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.merocofeee.model.AppNotification
+import com.example.merocofeee.model.AppNotificationModel
 import com.example.merocofeee.viewmodel.NotificationViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -72,7 +72,7 @@ fun NotificationsScreenContent() {
 }
 
 @Composable
-fun NotificationItem(notification: AppNotification) {
+fun NotificationItem(notification: AppNotificationModel) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp)

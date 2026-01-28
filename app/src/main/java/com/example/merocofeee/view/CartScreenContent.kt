@@ -1,7 +1,5 @@
 package com.example.merocofeee.view
 
-import android.app.Activity
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
@@ -64,7 +62,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.merocofeee.model.AppNotification
+import com.example.merocofeee.model.AppNotificationModel
 import com.example.merocofeee.model.OrderModel
 import com.example.merocofeee.model.ProductModel
 import com.example.merocofeee.repository.UserRepoImpl
@@ -299,7 +297,7 @@ fun CheckoutBottomBar(subtotal: Double, cartItems: List<ProductModel>) {
                             val database = FirebaseDatabase.getInstance().getReference("notifications")
                             val notificationId = database.child(userId).push().key ?: ""
                             
-                            val newNotification = AppNotification(
+                            val newNotification = AppNotificationModel(
                                 id = notificationId,
                                 title = "Order Placed ☕",
                                 message = "Your coffee is being prepared",
