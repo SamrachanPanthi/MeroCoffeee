@@ -2,7 +2,7 @@ package com.example.merocofeee.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.merocofeee.model.AppNotification
+import com.example.merocofeee.model.AppNotificationModel
 import com.example.merocofeee.repository.NotificationRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,8 +12,8 @@ class NotificationViewModel : ViewModel() {
 
     private val repository = NotificationRepository()
 
-    private val _notifications = MutableStateFlow<List<AppNotification>>(emptyList())
-    val notifications: StateFlow<List<AppNotification>> = _notifications
+    private val _notifications = MutableStateFlow<List<AppNotificationModel>>(emptyList())
+    val notifications: StateFlow<List<AppNotificationModel>> = _notifications
 
     fun loadNotifications(userId: String) {
         viewModelScope.launch {

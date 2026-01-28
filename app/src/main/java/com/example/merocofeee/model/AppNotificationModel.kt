@@ -1,6 +1,6 @@
 package com.example.merocofeee.model
 
-data class AppNotification(
+data class AppNotificationModel(
     val id: String = "",
     val title: String = "",
     val message: String = "",
