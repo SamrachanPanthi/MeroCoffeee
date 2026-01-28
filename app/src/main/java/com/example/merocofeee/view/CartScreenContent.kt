@@ -1,11 +1,14 @@
 package com.example.merocofeee.view
 
 import android.app.Activity
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,22 +27,30 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.AlertDialog
 import com.example.merocofeee.R
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,6 +73,9 @@ import com.example.merocofeee.viewmodel.CartViewModel
 import com.example.merocofeee.viewmodel.OrderViewModel
 import com.example.merocofeee.viewmodel.UserViewModel
 import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 // --- THEME COLORS ---
@@ -69,6 +83,7 @@ private val CreamBackground = Color(0xFFFDF5E6)
 private val DarkBrown = Color(0xFF4E342E)
 private val AccentOrange = Color(0xFFFF9800)
 private val SoftGray = Color(0xFF757575)
+private val PureWhite = Color(0xFFFFFFFF)
 
 @Composable
 fun Cart(onBack: () -> Unit = {}) {
@@ -96,6 +111,19 @@ fun CartScreenStateless(
     onDecreaseQuantity: (String) -> Unit,
     onRemoveItem: (ProductModel) -> Unit
 ) {
+    var selectedTime by remember { mutableStateOf("ASAP (15–20 min)") }
+    var showTimePicker by remember { mutableStateOf(false) }
+
+    if (showTimePicker) {
+        TimePickerDialog(onDismiss = { showTimePicker = false }) { hour, minute ->
+            val calendar = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+            }
+            selectedTime = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(calendar.time)
+            showTimePicker = false
+        }
+    }
     Scaffold(
         topBar = { CartTopAppBar(onBack = onBack) },
         bottomBar = { CheckoutBottomBar(subtotal = subtotal, cartItems = cartItems) },
@@ -126,6 +154,11 @@ fun CartScreenStateless(
                         onRemove = { onRemoveItem(product) }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    PickupTimeSelector(selectedTime) { showTimePicker = true }
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
 
                 item { PriceSummary(subtotal = subtotal) }
@@ -341,4 +374,39 @@ fun EmptyCartScreenPreview() {
         onDecreaseQuantity = {},
         onRemoveItem = {}
     )
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TimePickerDialog(onDismiss: () -> Unit, onTimeSelected: (Int, Int) -> Unit) {
+    val state = rememberTimePickerState()
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = { onTimeSelected(state.hour, state.minute) }) { Text("Confirm", color = AccentOrange) }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancel", color = SoftGray) }
+        },
+        text = { TimePicker(state = state) }
+    )
+}
+@Composable
+fun PickupTimeSelector(selectedTime: String, onClick: () -> Unit) {
+    Column {
+        Text("Pickup Schedule", fontWeight = FontWeight.Bold, color = DarkBrown, fontSize = 15.sp)
+        Spacer(Modifier.height(10.dp))
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick),
+            shape = RoundedCornerShape(14.dp),
+            colors = CardDefaults.cardColors(containerColor = PureWhite),
+            border = BorderStroke(1.dp, DarkBrown.copy(alpha = 0.1f))
+        ) {
+            Row(Modifier.padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text(selectedTime, color = DarkBrown, fontWeight = FontWeight.Medium)
+                Icon(Icons.Default.KeyboardArrowDown, null, tint = SoftGray)
+            }
+        }
+    }
 }
