@@ -63,4 +63,6 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.10.0")
     implementation("com.cloudinary:cloudinary-android:2.1.0")
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+
 }
