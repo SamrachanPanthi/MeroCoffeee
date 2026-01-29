@@ -59,8 +59,7 @@ fun HelpSupportScreen(onBack: () -> Unit) {
                 .padding(horizontal = 24.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-//            ProfileSubScreenHeader("Help & Support", onBack)
-//            Spacer(Modifier.height(24.dp))
+
 
             Text("Frequently Asked Questions", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = DarkBrown))
             Spacer(Modifier.height(16.dp))
