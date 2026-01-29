@@ -67,6 +67,10 @@
             android:exported="true"
             android:label="@string/title_activity_login2"
             android:theme="@style/Theme.MeroCofeee"/>
+        <activity
+            android:name=".view.NotificationActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
