@@ -1,9 +1,6 @@
 package com.example.merocofeee.view
 
-
-
 import android.content.Intent
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,18 +17,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.merocofeee.R
-import com.example.merocofeee.view.AdminPanelActivity
-import com.example.merocofeee.view.EditProfileScreen
-import com.example.merocofeee.view.HelpSupportScreen
-import com.example.merocofeee.view.PrivacySecurityScreen
 import com.example.merocofeee.view.ui.theme.Brown
-import com.example.merocofeee.viewmodel.UserViewModel
-
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun ProfileScreen() {
     val context = LocalContext.current
     var selectedIndex by remember { mutableStateOf(0) }
+
+    // Get current logged-in user
+    val firebaseUser = FirebaseAuth.getInstance().currentUser
+    val name = firebaseUser?.displayName ?: "User"
+    val email = firebaseUser?.email ?: "No Email"
 
     Box(
         modifier = Modifier
@@ -41,11 +38,12 @@ fun ProfileScreen() {
         when (selectedIndex) {
             // Main Profile Menu
             0 -> ProfileMainScreen(
+                name = name,
+                email = email,
                 onNavigate = { selectedIndex = it },
                 onBackClick = {
-
-                    val intent = android.content.Intent(context, DashboardActivity2::class.java)
-                    intent.flags = android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    val intent = Intent(context, DashboardActivity2::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     context.startActivity(intent)
                     (context as? android.app.Activity)?.finish()
                 }
@@ -53,26 +51,28 @@ fun ProfileScreen() {
 
             // Sub-Screens
             1 -> EditProfileScreen(onBack = {})
-
-
-
-
             2 -> PrivacySecurityScreen(onBack = {})
+            3 -> HelpSupportScreen(onBack = {})
 
-            3 -> HelpSupportScreen( onBack = {})
-
-            // View other user profile
-
-            else -> ProfileMainScreen(onNavigate = { selectedIndex = it }, onBackClick = {})
+            else -> ProfileMainScreen(
+                name = name,
+                email = email,
+                onNavigate = { selectedIndex = it },
+                onBackClick = {}
+            )
         }
     }
 }
 
 @Composable
 fun ProfileMainScreen(
+    name: String,
+    email: String,
     onNavigate: (Int) -> Unit,
     onBackClick: () -> Unit
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -120,6 +120,7 @@ fun ProfileMainScreen(
                 .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // For now, using static image; can be replaced with Firebase profile picture later
             Image(
                 painter = painterResource(R.drawable.img),
                 contentDescription = null,
@@ -131,8 +132,8 @@ fun ProfileMainScreen(
             Spacer(Modifier.width(20.dp))
 
             Column {
-                Text("Sam", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("sam@email.com", fontSize = 14.sp, color = Color.Gray)
+                Text(name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text(email, fontSize = 14.sp, color = Color.Gray)
                 Text("Member since January 2024", fontSize = 12.sp, color = Color.Gray)
             }
         }
@@ -141,25 +142,19 @@ fun ProfileMainScreen(
 
         // MENU ITEMS
         ProfileItem(R.drawable.baseline_person_2_24, "Edit Profile") { onNavigate(1) }
-
-        ProfileItem(R.drawable.outline_security_24, "Privacy & Security") { onNavigate(3) }
+        ProfileItem(R.drawable.outline_security_24, "Privacy & Security") { onNavigate(2) }
         ProfileItem(R.drawable.outline_settings_24, "App Settings") { onNavigate(4) }
-        ProfileItem(R.drawable.baseline_help_outline_24, "Help & Support") { onNavigate(5) }
+        ProfileItem(R.drawable.baseline_help_outline_24, "Help & Support") { onNavigate(3) }
 
         Spacer(Modifier.height(20.dp))
 
-        val context = LocalContext.current
-
         LogoutItem {
-            // 1. Logout (example using Firebase Auth)
-            com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
+            // 1. Logout using Firebase Auth
+            FirebaseAuth.getInstance().signOut()
 
             // 2. Navigate to LoginActivity
-            val intent = android.content.Intent(context, LoginActivity::class.java)
-            intent.flags =
-                android.content.Intent.FLAG_ACTIVITY_NEW_TASK or
-                        android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
-
+            val intent = Intent(context, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context.startActivity(intent)
 
             // 3. Finish current activity
