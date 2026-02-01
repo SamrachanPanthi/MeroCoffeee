@@ -100,6 +100,7 @@ fun Cart(onBack: () -> Unit = {}) {
     )
 }
 
+
 @Composable
 fun CartScreenStateless(
     cartItems: List<ProductModel>,
@@ -124,7 +125,8 @@ fun CartScreenStateless(
     }
     Scaffold(
         topBar = { CartTopAppBar(onBack = onBack) },
-        bottomBar = { CheckoutBottomBar(subtotal = subtotal, cartItems = cartItems) },
+        bottomBar = { CheckoutBottomBar(subtotal = subtotal, cartItems = cartItems,
+            pickupTime = selectedTime) },
         containerColor = CreamBackground
     ) { paddingValues ->
         if (cartItems.isEmpty()) {
@@ -271,7 +273,7 @@ fun PriceSummary(subtotal: Double) {
 }
 
 @Composable
-fun CheckoutBottomBar(subtotal: Double, cartItems: List<ProductModel>) {
+fun CheckoutBottomBar(subtotal: Double, cartItems: List<ProductModel>,pickupTime: String) {
     val context = LocalContext.current
     val orderViewModel = remember { OrderViewModel() }
     val userViewModel = remember { UserViewModel(UserRepoImpl()) }
@@ -287,7 +289,8 @@ fun CheckoutBottomBar(subtotal: Double, cartItems: List<ProductModel>) {
                     val order = OrderModel(
                         items = cartItems,
                         totalPrice = total,
-                        user = userId
+                        user = userId,
+                        pickupTime = pickupTime
                     )
                     orderViewModel.placeOrder(order) { success, message ->
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
